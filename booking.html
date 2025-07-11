@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Booking | Sprintup Services</title>
+  <link rel="stylesheet" href="booking.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Top Contact Bar -->
+  <div class="top-bar">
+    <p>Welcome To Sprintup Services</p>
+    <div class="social-icons">
+      <a href="#"><img src="images/facebook (1).png" alt="Facebook"></a>
+      <a href="#"><img src="images/twitter (1).png" alt="Twitter"></a>
+      <a href="#"><img src="images/linkedin.png" alt="LinkedIn"></a>
+    </div>
+  </div>
+
+  <!-- Logo and Contact Row -->
+  <div class="logo-contact">
+    <div class="logo"><img src="images/logo1.png" alt="Kenya Travel Logo" /></div>
+    <div class="contact-info">
+      <div class="item">
+        <img src="images/phone.png" alt="Phone Icon">
+        <div>
+          <strong>Call Us</strong><br />254724792140
+        </div>
+      </div>
+      <div class="item">
+        <img src="images/gmail (1).png" alt="Email Icon">
+        <div>
+          <strong>E-Mail Us</strong><br />info@sprintupservices.co.ke
+        </div>
+      </div>
+      <div class="item">
+        <img src="images/google-maps.png" alt="Location Icon">
+        <div>
+          <strong>Location</strong><br />Kericho, Kenya
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation Bar -->
+  <header>
+    <nav>
+  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+  <ul class="nav-links" id="navMenu">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About Us</a></li>
+    <li><a href="pricing.html">Pricing</a></li>
+    <li><a href="booking.html">Booking</a></li>
+    <li><a href="contactus.html">Contact Us</a></li>
+  </ul>
+</nav>
+  </header>
+
+  <section id="booking" class="section">
+  <h2>Book Your Travel</h2>
+  <form id="bookingForm" onsubmit="handleBooking(event)">
+    <!-- Service Type -->
+    <div class="form-row">
+      <label for="serviceType">Service Type:</label>
+      <select id="serviceType" name="serviceType" required onchange="toggleServiceFields()">
+        <option value="passenger">Passenger</option>
+        <option value="parcel">Parcel</option>
+      </select>
+    </div>
+    <!-- Vehicle Type -->
+    <div class="form-row">
+      <label for="vehicle">Vehicle Type:</label>
+      <select id="vehicle" name="vehicle" required onchange="calculateFare()">
+        <option value="bus">Bus</option>
+        <option value="14seater">14 Seater</option>
+        <option value="7seater">7 Seater</option>
+        <option value="saloon">Saloon Car</option>
+      </select>
+    </div>
+    <!-- From / To -->
+    <div class="form-row"><label>From:</label><select id="from" onchange="calculateFare()" required>${countyOptions}</select></div>
+    <div class="form-row"><label>To:</label><select id="to" onchange="calculateFare()" required>${countyOptions}</select></div>
+    <!-- Date & Time -->
+    <div class="form-row"><label>Date:</label><input type="date" id="date" required></div>
+    <div class="form-row"><label>Time:</label><input type="time" id="time" required></div>
+    <!-- Passenger / Parcel -->
+    <div class="form-row" id="passengerFields"><label>Passengers:</label><input type="number" id="passengers" min="1" value="1"></div>
+    <div class="form-row" id="parcelFields" style="display:none"><label>Parcel Weight (kg):</label><input type="number" id="weight" min="1"></div>
+    <!-- Personal Details -->
+    <div class="form-row"><label>Name:</label><input type="text" id="name" required></div>
+    <div class="form-row"><label>Phone:</label><input type="tel" id="phone" required></div>
+    <div class="form-row"><label>Email:</label><input type="email" id="email" required></div>
+    <div class="form-row"><label>ID Number:</label><input type="text" id="idnumber" required></div>
+    <!-- Fare Display -->
+    <div class="form-row">
+      <label>Fare:</label>
+      <input type="text" id="price" readonly placeholder="KES 0.00">
+      <input type="hidden" id="priceValue">
+      <input type="hidden" id="distanceValue">
+    </div>
+    <!-- Payment -->
+    <div class="form-row">
+      <label>Payment:</label>
+      <select id="payment" required>
+        <option value="">Select Method</option>
+        <option value="mpesa">M-Pesa</option>
+        <option value="card">Card</option>
+        <option value="cash">Cash</option>
+      </select>
+    </div>
+    <div class="form-row center"><button type="submit">Book Now</button></div>
+  </form>
+</section>
+
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+  // 1️⃣ Build County Dropdown Options
+  const counties = ["Baringo","Bomet","Bungoma","Busia","Elgeyo-Marakwet","Embu","Garissa","Homa Bay","Isiolo","Kajiado","Kakamega","Kericho","Kiambu","Kilifi","Kirinyaga","Kisii","Kisumu","Kitui","Kwale","Laikipia","Lamu","Machakos","Makueni","Mandera","Marsabit","Meru","Migori","Mombasa","Murang'a","Nairobi","Nakuru","Nandi","Narok","Nyamira","Nyandarua","Nyeri","Samburu","Siaya","Taita-Taveta","Tana River","Tharaka-Nithi","Trans Nzoia","Turkana","Uasin Gishu","Vihiga","Wajir","West Pokot"];
+  const countyOptions = counties.map(c=>`<option value="${c}">${c}</option>`).join('');
+
+  document.querySelectorAll('#from, #to').forEach(el => el.innerHTML = `<option value="">Select County</option>`+countyOptions);
+
+  // 2️⃣ Full Fare Matrix (simplified example – you can replace with real distances/fare)
+  const fareMatrix = {};
+  counties.forEach(a => {
+    counties.forEach(b => {
+      if (a===b) return;
+      // Example: fare = abs(index diff)*30 km * 50 KES/km
+      const distance = Math.abs(counties.indexOf(a) - counties.indexOf(b)) * 30;
+      fareMatrix[`${a}|${b}`] = { distance, fare: distance*50 };
+    });
+  });
+
+  function toggleServiceFields() {
+    const type = document.getElementById("serviceType").value;
+    document.getElementById("passengerFields").style.display = type==='passenger'?'block':'none';
+    document.getElementById("parcelFields").style.display = type==='parcel'?'block':'none';
+  }
+
+  function calculateFare() {
+    const a = document.getElementById("from").value;
+    const b = document.getElementById("to").value;
+    const key = `${a}|${b}`;
+    if (!fareMatrix[key]) return document.getElementById("price").value = "Select valid route";
+
+    const { distance, fare } = fareMatrix[key];
+    document.getElementById("distanceValue").value = distance;
+    document.getElementById("priceValue").value = fare;
+    document.getElementById("price").value = `KES ${fare}`;
+  }
+
+  // 3️⃣ Firebase Initialization (fill in your config)
+  const firebaseConfig = {
+    apiKey: "YOUR_KEY",
+    authDomain: "YOUR_DOMAIN",
+    databaseURL: "YOUR_DB_URL",
+    projectId: "YOUR_ID"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+
+  async function handleBooking(e) {
+    e.preventDefault();
+    const data = {
+      serviceType: e.target.serviceType.value,
+      vehicle: e.target.vehicle.value,
+      from: e.target.from.value,
+      to: e.target.to.value,
+      date: e.target.date.value,
+      time: e.target.time.value,
+      passengers: e.target.passengers?.value || "",
+      weight: e.target.weight?.value || "",
+      name: e.target.name.value,
+      phone: e.target.phone.value,
+      email: e.target.email.value,
+      idnumber: e.target.idnumber.value,
+      distance: e.target.distanceValue.value,
+      fare: e.target.priceValue.value,
+      payment: e.target.payment.value,
+      timestamp: Date.now()
+    };
+
+    const ref = db.ref('bookings').push();
+    await ref.set(data);
+    generatePDF(data);
+  }
+
+  // 4️⃣ Generate PDF Receipt
+  async function generatePDF(data) {
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF();
+    pdf.text("Sprintup Services Booking Receipt", 20, 20);
+    Object.entries(data).forEach(([k,v],i)=> pdf.text(`${k}: ${v}`, 20, 30 + i*8));
+    pdf.save(`booking_${data.timestamp}.pdf`);
+    alert("Booking confirmed! Your receipt is downloading.");
+  }
+</script>
+
+
+  <!-- Footer Section -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-column">
+        <h3>Sprintup Services</h3>
+        <p>Kenya Travel is your trusted partner for seamless intercity transport bookings across Kenya. We make travel easy, secure, and affordable with digital convenience at your fingertips.</p>
+      </div>
+      <div class="footer-column">
+        <h3>POPULAR DESTINATIONS</h3>
+        <ul>
+          <li><a href="#">Nairobi</a></li>
+          <li><a href="#">Eldoret</a></li>
+          <li><a href="#">Kisumu</a></li>
+          <li><a href="#">Kericho</a></li>
+          <li><a href="#">Nakuru</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>OUR PARTNERS</h3>
+        <ul>
+          <li><a href="#">Modern Coast</a></li>
+          <li><a href="#">Easy Coach</a></li>
+          <li><a href="#">Transline</a></li>
+          <li><a href="#">Dreamline</a></li>
+          <li><a href="#">Mash Poa</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>GET IN TOUCH</h3>
+        <ul class="contact-info">
+          <li>📞 <a href="tel:+254700123456">+254 700 123456</a></li>
+          <li>📧 <a href="mailto:support@kenyatravel.co.ke">support@kenyatravel.co.ke</a></li>
+          <li>📍 <a href="#">Nairobi, Kenya</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Kenya Travel Booking. All rights reserved.<br>
+      Designed by <a href="#">KenyaTravel Team</a> | by <a href="#">General Cheruiyot Ruto</a></p>
+      <div class="social-icons">
+        <a href="#"><img src="images/twitter (1).png" alt="Twitter"></a>
+        <a href="#"><img src="images/facebook (1).png" alt="Facebook"></a>
+        <a href="#"><img src="images/linkedin.png" alt="LinkedIn"></a>
+        <a href="#"><img src="images/gmail (1).png" alt="Instagram"></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+  <script src="script.js"></script>
+  <script>
+  function toggleMenu() {
+    document.getElementById('navMenu').classList.toggle('active');
+  }
+</script>
+
+</body>
+</html>

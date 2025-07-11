@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Us | Sprintup Services</title>
+  <link rel="stylesheet" href="contactus.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Top Contact Bar -->
+  <div class="top-bar">
+    <p>Welcome To Sprintup Services</p>
+    <div class="social-icons">
+      <a href="#"><img src="images/facebook (1).png" alt="Facebook"></a>
+      <a href="#"><img src="images/twitter (1).png" alt="Twitter"></a>
+      <a href="#"><img src="images/linkedin.png" alt="LinkedIn"></a>
+    </div>
+  </div>
+
+  <!-- Logo and Contact Row -->
+  <div class="logo-contact">
+    <div class="logo"><img src="images/logo1.png" alt="Company Logo" /></div>
+    <div class="contact-info">
+      <div class="item">
+        <img src="images/phone.png" alt="Phone Icon">
+        <div>
+          <strong>Call Us</strong><br />+254 724 792 140
+        </div>
+      </div>
+      <div class="item">
+        <img src="images/gmail (1).png" alt="Email Icon">
+        <div>
+          <strong>Email</strong><br />info@sprintupservices.co.ke
+        </div>
+      </div>
+      <div class="item">
+        <img src="images/google-maps.png" alt="Location Icon">
+        <div>
+          <strong>Visit Us</strong><br />Kericho, Kenya
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <header>
+    <nav>
+  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+  <ul class="nav-links" id="navMenu">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About Us</a></li>
+    <li><a href="pricing.html">Pricing</a></li>
+    <li><a href="booking.html">Booking</a></li>
+    <li><a href="contactus.html">Contact Us</a></li>
+  </ul>
+</nav>
+  </header>
+
+  <!-- Contact Us Section -->
+  <section id="contact" class="section">
+    <h2>Get In Touch with Us</h2>
+    <p style="text-align:center; max-width: 700px; margin: auto; margin-bottom: 25px;">
+      We're here to make your travel experience seamless, safe, and efficient. Whether you need help booking a trip, have questions about pricing, or want to partner with us, we're just a message away.
+    </p>
+
+    <!-- Contact Details with Support Hours -->
+    <div style="max-width: 1000px; margin: auto; display: flex; flex-wrap: wrap; gap: 30px; justify-content: space-between; margin-bottom: 40px;">
+      <div style="flex: 1 1 300px;">
+        <h3 style="color: #002b5e;">Customer Support</h3>
+        <p><strong>Support Hours:</strong><br> Monday - Saturday: 8:00 AM – 8:00 PM</p>
+        <p><strong>Hotline:</strong> +254 724 792 140</p>
+        <p><strong>Email:</strong> support@sprintupservices.co.ke</p>
+      </div>
+      <div style="flex: 1 1 300px;">
+        <h3 style="color: #002b5e;">Office Location</h3>
+        <p>🏢 Sprintup Services, 2nd Floor, Moi Highway Plaza,<br> Opposite Green Square Mall,<br> Kericho, Kenya.</p>
+        <div style="margin-top: 15px;">
+          <img src="images/map-placeholder.jpg" alt="Map Placeholder" style="width:100%; border-radius: 10px;">
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Form -->
+    <form class="contact-form" action="#" method="post" style="max-width: 700px; margin: auto;">
+      <div class="form-row">
+        <label for="fullName">Full Name:</label>
+        <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required>
+      </div>
+
+      <div class="form-row">
+        <label for="email">Email Address:</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+      </div>
+
+      <div class="form-row">
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" name="phone" placeholder="Your phone number (optional)">
+      </div>
+
+      <div class="form-row">
+        <label for="subject">Subject:</label>
+        <input type="text" id="subject" name="subject" placeholder="Message subject" required>
+      </div>
+
+      <div class="form-row">
+        <label for="message">Your Message:</label>
+        <textarea id="message" name="message" rows="6" placeholder="Write your message here..." required></textarea>
+      </div>
+
+      <div class="form-row center">
+        <button type="submit">Send Message</button>
+      </div>
+    </form>
+
+    <!-- Feedback Encouragement -->
+    <div style="text-align: center; margin-top: 50px; color: #333;">
+      <h3>We value your feedback</h3>
+      <p>Tell us how we can improve or share your experience with our services. Your feedback helps us serve you better!</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-column">
+        <h3>Sprintup Services</h3>
+        <p>Your trusted partner for seamless intercity transport bookings across Kenya. We make travel easy, secure, and affordable with digital convenience at your fingertips.</p>
+      </div>
+      <div class="footer-column">
+        <h3>Popular Destinations</h3>
+        <ul>
+          <li><a href="#">Nairobi</a></li>
+          <li><a href="#">Kericho</a></li>
+          <li><a href="#">Eldoret</a></li>
+          <li><a href="#">Kisumu</a></li>
+          <li><a href="#">Nakuru</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Our Partners</h3>
+        <ul>
+          <li><a href="#">Modern Coast</a></li>
+          <li><a href="#">Easy Coach</a></li>
+          <li><a href="#">Transline</a></li>
+          <li><a href="#">Dreamline</a></li>
+          <li><a href="#">Mash Poa</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Get in Touch</h3>
+        <ul class="contact-info">
+          <li>📞 <a href="tel:+254724792140">+254 724 792 140</a></li>
+          <li>📧 <a href="mailto:info@sprintupservices.co.ke">info@sprintupservices.co.ke</a></li>
+          <li>📍 <a href="#">Kericho, Kenya</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2025 Sprintup Services. All rights reserved.<br>
+      Designed by <a href="#">KenyaTravel Team</a> | by <a href="#">General Cheruiyot Ruto</a></p>
+      <div class="social-icons">
+        <a href="#"><img src="images/twitter (1).png" alt="Twitter"></a>
+        <a href="#"><img src="images/facebook (1).png" alt="Facebook"></a>
+        <a href="#"><img src="images/linkedin.png" alt="LinkedIn"></a>
+        <a href="#"><img src="images/gmail (1).png" alt="Instagram"></a>
+      </div>
+    </div>
+  </footer>
+  <script>
+  function toggleMenu() {
+    document.getElementById('navMenu').classList.toggle('active');
+  }
+</script>
+
+
+</body>
+</html>
